@@ -1,6 +1,11 @@
 class ContactsController < ApplicationController
   def index
-    @contacts = Contact.all
+    if current_user
+      @contacts = current_user.contacts
+    else
+      flash[:info] = "You are logged out."
+      redirect_to '/users/sign_in'
+    end
   end
 
   def show
@@ -11,7 +16,13 @@ class ContactsController < ApplicationController
   end
 
   def create
-    @contact = Contact.create(first_name: params[:first_name], last_name: params[:last_name], email: params[:email], phone: params[:phone])
+    @contact = Contact.create(
+      first_name: params[:first_name],
+      last_name: params[:last_name],
+      email: params[:email],
+      phone: params[:phone],
+      user_id: current_user.id
+    )
     flash[:success] = "Contact created."
     redirect_to "/contacts/#{@contact.id}"
   end
