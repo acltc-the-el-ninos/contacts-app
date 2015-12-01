@@ -2,6 +2,13 @@ class ContactsController < ApplicationController
   def index
     if current_user
       @contacts = current_user.contacts
+      group_name = params[:group]
+      if group_name
+        @contacts = Group
+          .find_by(name: group_name)
+          .contacts
+          .where(user_id: current_user.id)
+      end
     else
       flash[:info] = "You are logged out."
       redirect_to '/users/sign_in'
