@@ -2,6 +2,7 @@ class ContactsController < ApplicationController
   def index
     if current_user
       @contacts = current_user.contacts
+      
       group_name = params[:group]
       if group_name
         @contacts = Group
