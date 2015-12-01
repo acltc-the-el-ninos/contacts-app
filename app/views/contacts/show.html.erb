@@ -7,5 +7,11 @@
     <li><%= group.name %></li>
   <% end %>
 </ul>
+<div>
+  <%= @contact.groups.map { |group| group.name }.join(', ') %>
+</div>
+<div>
+  <%= @contact.groups.pluck(:name).join(', ') %>
+</div>
 <%= link_to "Edit", "/contacts/#{@contact.id}/edit" %>
 <%= link_to "Delete", "/contacts/#{@contact.id}", method: :delete %>
